@@ -39,8 +39,8 @@ class DataValidationError(ValueError):
 
 
 def read_csv_bytes(content: bytes) -> pd.DataFrame:
-    if not content or len(content) > 5 * 1024 * 1024:
-        raise DataValidationError("Choose a non-empty CSV smaller than 5 MB.")
+    if not content or len(content) > 4 * 1024 * 1024:
+        raise DataValidationError("Choose a non-empty CSV no larger than 4 MB.")
     try:
         text = content.decode("utf-8-sig")
         dialect = csv.Sniffer().sniff(text[:8192], delimiters=",;\t")

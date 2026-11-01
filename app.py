@@ -70,7 +70,7 @@ with st.sidebar:
     source = st.selectbox("Dataset", ["UCI · Mathematics", "UCI · Portuguese", "Upload a CSV"], key="source")
     upload = None
     if source == "Upload a CSV":
-        upload = st.file_uploader("Student records", type=["csv"], help="UTF-8 CSV, up to 5 MB. Use G3 for the final score (0–20).")
+        upload = st.file_uploader("Student records", type=["csv"], help="UTF-8 CSV, up to 4 MB. Use G3 for the final score (0–20).")
         st.caption("Use anonymous records. Uploads are processed in this running app and are not written to disk.")
     else:
         st.caption("Real school records · Portugal · CC BY 4.0")

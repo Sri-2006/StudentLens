@@ -29,7 +29,15 @@ python -m venv --without-pip .venv
 python -m pip --python .\.venv\Scripts\python.exe install -r requirements.txt
 ```
 
-Do not upload `.venv` to Git or copy it between computers. No API keys, paid services or database are needed. The app binds to this computer by default; public deployment is not configured.
+Do not upload `.venv` to Git or copy it between computers. No API keys or database are needed. The local launchers bind to this computer; the included ASGI configuration also supports deployment to Vercel.
+
+## Vercel deployment
+
+The hosted app uses Streamlit's ASGI entry point in `asgi.py`; `app.py` remains the Streamlit page. `pyproject.toml` points Vercel to `asgi:app`, `.python-version` selects Python 3.13, and `vercel.json` selects the Python framework with Fluid Compute and a 300-second function duration. `/healthz` provides a simple readiness response.
+
+Deploy from this directory with an authenticated Vercel CLI, or import this repository in Vercel. Use the Python framework preset and the committed configuration. Local environments, secrets, tests and generated artifacts are excluded from deployment uploads.
+
+Vercel Functions have a 4.5 MB request-body limit, so CSV uploads are capped at 4 MB to leave room for multipart overhead. Streamlit sessions are temporary: a WebSocket closes at the function-duration limit, and a reconnect can use another instance. Settings, uploaded records and download files are held in memory and may need to be recreated after a reconnect. Download results before leaving a session. This is an educational demo without durable user storage.
 
 ## What you can demonstrate
 
@@ -130,6 +138,8 @@ To refresh the original dataset, with internet available:
 | File | Role |
 |---|---|
 | `app.py` | Streamlit interface and Plotly charts |
+| `asgi.py` | Streamlit ASGI deployment entry point and health endpoint |
+| `vercel.json` / `pyproject.toml` | Vercel Python deployment configuration |
 | `model.py` | Validation, cleaning, model fitting, metrics and prediction explanations |
 | `data/uci/` | Original research CSVs and source dictionary |
 | `data/upload-template.csv` | Illustrative upload schema |
