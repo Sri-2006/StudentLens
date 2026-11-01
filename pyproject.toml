@@ -1,2 +1,15 @@
+[project]
+name = "studentlens"
+version = "1.0.0"
+description = "Interactive student performance analytics with explainable linear regression"
+requires-python = ">=3.13,<3.14"
+dependencies = [
+  "streamlit>=1.66.1,<2",
+  "pandas>=2.2,<4",
+  "numpy>=2,<3",
+  "scikit-learn>=1.6,<2",
+  "plotly>=6,<7",
+]
+
 [tool.vercel]
 entrypoint = "asgi:app"
