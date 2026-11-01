@@ -37,6 +37,8 @@ The hosted app uses Streamlit's ASGI entry point in `asgi.py`; `app.py` remains 
 
 Deploy from this directory with an authenticated Vercel CLI, or import this repository in Vercel. Use the Python framework preset and the committed configuration. Local environments, secrets, tests and generated artifacts are excluded from deployment uploads.
 
+The scientific Python dependencies exceed Vercel's standard 500 MB Python bundle limit. Set the non-secret project configuration variable `VERCEL_SUPPORT_LARGE_FUNCTIONS=1` for Production and Preview before deploying; this enables Vercel's large-function support. Runtime dependencies are declared in both `pyproject.toml` (used by Vercel) and `requirements.txt` (local pip setup), and should remain synchronized.
+
 Vercel Functions have a 4.5 MB request-body limit, so CSV uploads are capped at 4 MB to leave room for multipart overhead. Streamlit sessions are temporary: a WebSocket closes at the function-duration limit, and a reconnect can use another instance. Settings, uploaded records and download files are held in memory and may need to be recreated after a reconnect. Download results before leaving a session. This is an educational demo without durable user storage.
 
 ## What you can demonstrate
